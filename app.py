@@ -1,12 +1,11 @@
 import uvicorn
-from fastapi import FastAPI, Request, UploadFile
+from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
 import pandas as pd
 from io import BytesIO
 import json
 
-from models import CarsScheme
-from db_manager import Database
+from src.db_manager import Database
 
 app = FastAPI()
 
