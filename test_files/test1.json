@@ -1,0 +1,17 @@
+{
+    "brand": "hyundai",
+    "model": "verna",
+    "year": 2018,
+    "km_driven": 49000,
+    "fuel": "Diesel",
+    "seller_type": "Individual",
+    "transmission": "Automatic",
+    "owner": "First Owner",
+    "mileage": 22.0,
+    "engine": 1582.0,
+    "max_power": 126.2,
+    "torque": 259.87,
+    "seats": 5.0,
+    "max_torque_rpm": 3000.0,
+    "selling_price": 1150000
+}

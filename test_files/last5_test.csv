@@ -1,0 +1,6 @@
+brand,model,year,km_driven,fuel,seller_type,transmission,owner,mileage,engine,max_power,torque,seats,max_torque_rpm,selling_price
+hyundai,i10,2008,100000,Petrol,Individual,Manual,Second Owner,19.81,1086.0,68.05,99.04,5.0,4500.0,250000
+hyundai,i20,2017,50000,Petrol,Individual,Manual,Second Owner,18.6,1197.0,81.83,114.7,5.0,4000.0,440000
+hyundai,i20,2009,40000,Diesel,Individual,Manual,First Owner,23.0,1396.0,90.0,219.74,5.0,2750.0,340000
+hyundai,i10,2012,25000,Petrol,Individual,Manual,First Owner,20.36,1197.0,78.9,111.8,5.0,4000.0,350000
+honda,city,2016,110000,Diesel,Individual,Manual,First Owner,26.0,1498.0,98.6,200.0,5.0,1750.0,700000

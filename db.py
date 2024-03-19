@@ -23,4 +23,3 @@ async def get_db_session():
 
 
 DataBase = Annotated[Session, Depends(get_db_session)]
-

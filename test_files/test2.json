@@ -1,0 +1,17 @@
+{
+    "brand": "ford",
+    "model": "figo",
+    "year": 2015,
+    "km_driven": 100581,
+    "fuel": "Diesel",
+    "seller_type": "Dealer",
+    "transmission": "Manual",
+    "owner": "First Owner",
+    "mileage": 25.83,
+    "engine": 1498.0,
+    "max_power": 99.0,
+    "torque": 215.0,
+    "seats": 5.0,
+    "max_torque_rpm": 3000.0,
+    "selling_price": 415000
+}

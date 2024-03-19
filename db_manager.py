@@ -1,11 +1,13 @@
 from typing import Optional, Annotated
 
-from fastapi import Depends
+from fastapi import Depends, UploadFile
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db import get_db_session
-from models import TwitchUser, TwitchUserScheme, LogInfo
+from models import Cars, CarsScheme, LogInfo
+from functions import DataPreprocessing
+
 
 
 class RelationalManager:
@@ -20,41 +22,43 @@ class RelationalManager:
     async def close_database_connection(self) -> None:
         await self.db.close()
 
-    async def get_all_user(self) -> list[TwitchUserScheme]:
+    async def get_all_cars(self) -> list[CarsScheme]:
         result = await self.db.execute(
-            select(TwitchUser)  # SELECT * FROM twitch_users;
+            select(Cars)  # SELECT * FROM table;
         )
-        users = result.scalars().all()  # list[TwitchUser]
-        return [TwitchUserScheme(**user.__dict__) for user in users]
+        cars = result.scalars().all()  # list[TwitchUser]
+        return [CarsScheme(**car.__dict__) for car in cars]
 
-    async def add_user(self, user: TwitchUserScheme) -> None:
-        user = TwitchUser(
-            twitch_user_id=user.twitch_user_id,
-            login=user.login,
-            display_name=user.display_name,
-            type=user.type,
-            description=user.description,
-            view_count=user.view_count,
-            email=user.email,
-            broadcaster_type=user.email
-        )
-        self.db.add(user)
+    async def make_predictions(self, df) -> None:
+
+
+        preprocessing = DataPreprocessing(models_folder="models")
+        X_test, y_test = preprocessing.run_test(df)
+
+        prediction, score = preprocessing.model_predict(X_test)
+        df['predicted_price'] = prediction
+
+        for _, row in df.iterrows():
+            car = Cars(
+                brand=df['brand'],
+                model=df['model'],
+                year=df['year'],
+                km_driven=df['km_driven'],
+                fuel=df['fuel'],
+                seller_type=df['seller_type'],
+                transmission=df['transmission'],
+                owner=df['owner'],
+                mileage=df['mileage'],
+                engine=df['engine'],
+                max_power=df['max_power'],
+                torque=df['torque'],
+                seats=df['seats'],
+                max_torque_rpm=df['max_torque_rpm'],
+                predicted_price=df['predicted_price'],
+            )
+            self.db.add(car)
         await self.db.commit()
-
-    async def track_user(self, data: str) -> None:
-        log_info = LogInfo(
-            text=data
-        )
-        self.db.add(log_info)
-        await self.db.commit()
-
-    async def get_tracks(self):
-        result = await self.db.execute(
-            select(LogInfo)  # SELECT * FROM twitch_users;
-        )
-        for el in result.scalars().all():
-            print(el.created_at, '---', el.text)
-
+        return df
 
 async def get_pdb() -> RelationalManager:
     manager = RelationalManager()

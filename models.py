@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
-from sqlalchemy import BigInteger, Integer, String, Text, DateTime, func
+from sqlalchemy import BigInteger, Integer, String, Text, Float, DateTime, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from db import engine
 
@@ -12,18 +12,25 @@ class Base(DeclarativeBase):
     pass
 
 
-class TwitchUser(Base):
-    __tablename__ = "twitch_users"
+class Cars(Base):
+    __tablename__ = "cars"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    twitch_user_id: Mapped[int] = mapped_column(BigInteger, default=0, unique=True, nullable=False)
-    login: Mapped[str] = mapped_column(String, nullable=True)
-    display_name: Mapped[str] = mapped_column(String)
-    type: Mapped[str] = mapped_column(String)
-    description: Mapped[str] = mapped_column(Text, nullable=True)
-    view_count: Mapped[int] = mapped_column(Integer, default=0)
-    email: Mapped[str] = mapped_column(String, nullable=True)
-    broadcaster_type: Mapped[str] = mapped_column(String)
+    brand: Mapped[str] = mapped_column(String, nullable=True)
+    model: Mapped[str] = mapped_column(String, nullable=True)
+    year: Mapped[int] = mapped_column(Integer, nullable=True)
+    km_driven: Mapped[float] = mapped_column(Float, nullable=True)
+    fuel: Mapped[str] = mapped_column(String, nullable=True)
+    seller_type: Mapped[str] = mapped_column(String, nullable=True)
+    transmission: Mapped[str] = mapped_column(String, nullable=True)
+    owner: Mapped[str] = mapped_column(String, nullable=True)
+    mileage: Mapped[float] = mapped_column(Float, nullable=True)
+    engine: Mapped[float] = mapped_column(Float, nullable=True)
+    max_power: Mapped[float] = mapped_column(Float, nullable=True)
+    torque: Mapped[float] = mapped_column(Float, nullable=True)
+    seats: Mapped[int] = mapped_column(Integer, nullable=True)
+    max_torque_rpm: Mapped[float] = mapped_column(Float, nullable=True)
+    predicted_price: Mapped[float] = mapped_column(Float)
 
 
 class LogInfo(Base):
@@ -35,16 +42,21 @@ class LogInfo(Base):
     text: Mapped[str] = mapped_column(String, nullable=True)
 
 
-class TwitchUserScheme(BaseModel):
-    twitch_user_id: int  # twitch_user_id
-    login: str
-    display_name: str
-    type: str
-    description: str
-    view_count: int
-    broadcaster_type: str
-    email: Optional[str] = ""
-
+class CarsScheme(BaseModel):
+    brand: str
+    model: str
+    year: int
+    km_driven: float
+    fuel: str
+    seller_type: str
+    transmission: str
+    owner: str
+    mileage: float
+    engine: float
+    max_power: float
+    torque: float
+    seats: int
+    max_torque_rpm: float
 
 async def create_tables():
     async with engine.begin() as conn:

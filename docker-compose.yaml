@@ -1,0 +1,27 @@
+version: "3.9"
+
+
+services:
+  main-app:
+    image: main-service
+    build: .
+    command: bash -c "python /app/app.py"
+    environment:
+      TARGET_HOST: "internal-app"
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+  pgdb: #host
+    image: postgres:12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    ports:
+      - "5555:5432" #port
+
+volumes:
+  postgres_data:
