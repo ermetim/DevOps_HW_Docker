@@ -29,7 +29,7 @@ async def predict_by_csv(db: Database, file: UploadFile):
     buffer.close()
     # file.close()
     pred_df = await db.make_predictions(df)
-    pred_df.to_csv('prediction.csv')
+    pred_df.to_csv('prediction.csv', index=False)
     response = FileResponse(path='prediction.csv', media_type='text/csv', filename='prediction.csv')
     return response
 

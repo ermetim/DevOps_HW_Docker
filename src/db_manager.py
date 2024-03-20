@@ -1,12 +1,11 @@
 from typing import Optional, Annotated
-
 from fastapi import Depends, UploadFile
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db import get_db_session
-from models import Cars, CarsScheme, LogInfo
-from functions import DataPreprocessing
+from src.db import get_db_session
+from src.models import Cars, CarsScheme#, LogInfo
+from src.functions import DataPreprocessing
 
 
 
@@ -36,28 +35,22 @@ class RelationalManager:
         X_test, y_test = preprocessing.run_test(df)
 
         prediction, score = preprocessing.model_predict(X_test)
+
+        if 'selling_price' not in df.columns:
+            df['selling_price'] = None
+
         df['predicted_price'] = prediction
 
-        for _, row in df.iterrows():
-            car = Cars(
-                brand=df['brand'],
-                model=df['model'],
-                year=df['year'],
-                km_driven=df['km_driven'],
-                fuel=df['fuel'],
-                seller_type=df['seller_type'],
-                transmission=df['transmission'],
-                owner=df['owner'],
-                mileage=df['mileage'],
-                engine=df['engine'],
-                max_power=df['max_power'],
-                torque=df['torque'],
-                seats=df['seats'],
-                max_torque_rpm=df['max_torque_rpm'],
-                predicted_price=df['predicted_price'],
-            )
-            self.db.add(car)
-        await self.db.commit()
+        try:
+            for index, row in df.iterrows():
+                car = Cars(**row)  # Создаем объект Cars из данных строки DataFrame
+                print(index, car)
+                self.db.add(car)  # Добавляем объект в сессию
+                print(index, 'added')
+            await self.db.commit()  # Сохраняем изменения в базе данных
+        except:
+            print("problems")
+            pass
         return df
 
 async def get_pdb() -> RelationalManager:

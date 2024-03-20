@@ -1,6 +1,8 @@
-from functions import DataPreprocessing
 import pandas as pd
 import os
+
+from src.functions import DataPreprocessing
+
 
 test_path = os.path.join(os.getcwd(), "dataset", "prepared_test.csv")
 

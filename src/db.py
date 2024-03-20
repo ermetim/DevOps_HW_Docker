@@ -5,7 +5,7 @@ from sqlalchemy.pool import NullPool
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from config import DataBaseConfig
+from src.config import DataBaseConfig
 
 db_settings = DataBaseConfig()
 

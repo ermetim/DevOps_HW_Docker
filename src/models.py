@@ -3,9 +3,10 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
-from sqlalchemy import BigInteger, Integer, String, Text, Float, DateTime, func
+from sqlalchemy import Column, BigInteger, Integer, String, Text, Float, DateTime, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from db import engine
+
+from src.db import engine
 
 
 class Base(DeclarativeBase):
@@ -30,7 +31,30 @@ class Cars(Base):
     torque: Mapped[float] = mapped_column(Float, nullable=True)
     seats: Mapped[int] = mapped_column(Integer, nullable=True)
     max_torque_rpm: Mapped[float] = mapped_column(Float, nullable=True)
+    selling_price: Mapped[float] = mapped_column(Float, nullable=True)
     predicted_price: Mapped[float] = mapped_column(Float)
+
+
+# class Cars(Base):
+#     __tablename__ = "cars"
+#
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     brand = Column(String, nullable=True)
+#     model = Column(String, nullable=True)
+#     year = Column(Integer, nullable=True)
+#     km_driven = Column(Float, nullable=True)
+#     fuel = Column(String, nullable=True)
+#     seller_type = Column(String, nullable=True)
+#     transmission = Column(String, nullable=True)
+#     owner = Column(String, nullable=True)
+#     mileage = Column(Float, nullable=True)
+#     engine = Column(Float, nullable=True)
+#     max_power = Column(Float, nullable=True)
+#     torque = Column(Float, nullable=True)
+#     seats = Column(Integer, nullable=True)
+#     max_torque_rpm = Column(Integer, nullable=True)
+#     selling_price = Column(Float, nullable=True)
+#     predicted_price = Column(Float)
 
 
 class LogInfo(Base):
