@@ -8,6 +8,7 @@ COPY ./src /app/src
 COPY ./models /app/models
 
 COPY ./requirements.txt /app/
+RUN pip install --upgrade pip
 RUN pip install -r /app/requirements.txt
 
 ENV PYTHONPATH "${PYTHONPATH}:/app"

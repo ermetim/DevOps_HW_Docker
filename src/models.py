@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -35,38 +34,7 @@ class Cars(Base):
     predicted_price: Mapped[float] = mapped_column(Float)
 
 
-# class Cars(Base):
-#     __tablename__ = "cars"
-#
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     brand = Column(String, nullable=True)
-#     model = Column(String, nullable=True)
-#     year = Column(Integer, nullable=True)
-#     km_driven = Column(Float, nullable=True)
-#     fuel = Column(String, nullable=True)
-#     seller_type = Column(String, nullable=True)
-#     transmission = Column(String, nullable=True)
-#     owner = Column(String, nullable=True)
-#     mileage = Column(Float, nullable=True)
-#     engine = Column(Float, nullable=True)
-#     max_power = Column(Float, nullable=True)
-#     torque = Column(Float, nullable=True)
-#     seats = Column(Integer, nullable=True)
-#     max_torque_rpm = Column(Integer, nullable=True)
-#     selling_price = Column(Float, nullable=True)
-#     predicted_price = Column(Float)
-
-
-class LogInfo(Base):
-    __tablename__ = "log_info"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=True)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), onupdate=func.now(), nullable=True)
-    text: Mapped[str] = mapped_column(String, nullable=True)
-
-
-class CarsScheme(BaseModel):
+class CarsSchemeResponse(BaseModel):
     brand: str
     model: str
     year: int
@@ -75,12 +43,32 @@ class CarsScheme(BaseModel):
     seller_type: str
     transmission: str
     owner: str
-    mileage: float
-    engine: float
-    max_power: float
-    torque: float
-    seats: int
-    max_torque_rpm: float
+    mileage: Optional[float] = None
+    engine: Optional[float] = None
+    max_power: Optional[float] = None
+    torque: Optional[float] = None
+    seats: Optional[int] = None
+    max_torque_rpm: Optional[float] = None
+    selling_price: Optional[float] = None
+    predicted_price: float
+
+
+class CarsSchemeRequest(BaseModel):
+    brand: str
+    model: str
+    year: int
+    km_driven: float
+    fuel: str
+    seller_type: str
+    transmission: str
+    owner: str
+    mileage: Optional[float] = None
+    engine: Optional[float] = None
+    max_power: Optional[float] = None
+    torque: Optional[float] = None
+    seats: Optional[int] = None
+    max_torque_rpm: Optional[float] = None
+
 
 async def create_tables():
     async with engine.begin() as conn:
