@@ -81,7 +81,7 @@ docker compose down
 
 ## Ссылка на сервис
 
-
+https://carpredict-59ah.onrender.com
 
 ## Тест
 
